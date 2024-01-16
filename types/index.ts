@@ -46,6 +46,7 @@ export interface LocationPayload {
   h1?: string
   slug?: string
   seo?: SEO
+  cuisines?: showcaseCuisine[]
   cuisineCount?: number
   reviews?: number
   reviewAverage?: number

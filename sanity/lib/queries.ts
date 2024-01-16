@@ -54,6 +54,7 @@ export const locationBySlugQuery = groq`
     ...,
     "h1": locationSettings.title,
     "overview": coalesce(overview, locationSettings.overview),
+    "cuisineCount": count(cuisines),
     "seo": {
       "title": coalesce(seo.title, locationSettings.seo.title),
       "description": coalesce(seo.description, locationSettings.seo.description),

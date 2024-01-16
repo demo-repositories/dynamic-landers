@@ -36,10 +36,12 @@ export function CuisinePage({ data, encodeDataAttribute }: CuisinePageProps) {
 
           {/* Description */}
           {description && (
-            <CustomPortableText
-              paragraphClasses="font-serif max-w-3xl text-xl text-gray-600"
-              value={description}
-            />
+            <div className="prose">
+              <CustomPortableText
+                paragraphClasses="font-serif max-w-3xl text-xl text-gray-600"
+                value={description}
+              />
+            </div>
           )}
         </div>
 

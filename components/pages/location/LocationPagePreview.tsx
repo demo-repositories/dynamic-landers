@@ -15,7 +15,7 @@ type Props = {
 
 export default function LocationPagePreview(props: Props) {
   const { params, initial } = props
-  const { data } = useQuery<LocationPayload | null>(
+  const { data, encodeDataAttribute } = useQuery<LocationPayload | null>(
     locationBySlugQuery,
     params,
     {
@@ -23,5 +23,5 @@ export default function LocationPagePreview(props: Props) {
     },
   )
 
-  return <LocationPage data={data!} />
+  return <LocationPage data={data!} encodeDataAttribute={encodeDataAttribute} />
 }

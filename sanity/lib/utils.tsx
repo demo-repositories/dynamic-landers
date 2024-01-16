@@ -1,3 +1,4 @@
+import { vercelStegaCleanAll } from '@sanity/client/stega'
 import createImageUrlBuilder from '@sanity/image-url'
 import type { Image } from 'sanity'
 
@@ -41,8 +42,25 @@ export function resolveHref(
 }
 
 export function placeholderReplace(string?: string | null, data?: any) {
-  return string?.replace(/\{(\w+)\}/g, (match, key) => {
-    const value = data?.[key]
+  const replacement = string?.replace(/\{(\w+)\}/g, (match, key) => {
+    const value = vercelStegaCleanAll(data?.[key])
     return value || match
   })
+
+  return replacement
+}
+
+export function filterObjectKeys<T extends object, K extends keyof T>(
+  obj: T,
+  whitelist: K[],
+): Pick<T, K> {
+  const filteredObj: Partial<T> = {}
+
+  Object.keys(obj).forEach((key) => {
+    if (whitelist.includes(key as K)) {
+      filteredObj[key as K] = obj[key as K]
+    }
+  })
+
+  return filteredObj as Pick<T, K>
 }

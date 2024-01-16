@@ -1,5 +1,7 @@
 import { PortableText, PortableTextComponents } from '@portabletext/react'
 import type { PortableTextBlock } from '@portabletext/types'
+import { vercelStegaCleanAll } from '@sanity/client/stega'
+import type { EncodeDataAttributeCallback } from '@sanity/react-loader'
 import { Image } from 'sanity'
 
 import ImageBox from '@/components/shared/ImageBox'
@@ -9,10 +11,12 @@ export function CustomPortableText({
   paragraphClasses,
   value,
   placeholderData,
+  encodeDataAttribute,
 }: {
   paragraphClasses?: string
   value: PortableTextBlock[]
   placeholderData?: any
+  encodeDataAttribute?: EncodeDataAttributeCallback
 }) {
   const components: PortableTextComponents = {
     block: {
@@ -59,24 +63,27 @@ export function CustomPortableText({
         return <TimelineSection timelines={items} />
       },
       placeholder: ({ value }) => {
-        const { field } = value || {}
+        const { field } = value
+        if (!field) return ''
+
+        const cleanField = vercelStegaCleanAll(field)
+
         return (
-          <span>
-            {field == 'joined'
-              ? new Date(placeholderData?.[field]).toLocaleDateString('en-gb', {
-                  year: 'numeric',
-                  month: 'short',
-                })
-              : placeholderData?.[field]}
-          </span>
+          <>
+            {cleanField == 'joined'
+              ? new Date(placeholderData?.[cleanField]).toLocaleDateString(
+                  'en-gb',
+                  {
+                    year: 'numeric',
+                    month: 'short',
+                  },
+                )
+              : `${placeholderData?.[cleanField]}`}
+          </>
         )
       },
     },
   }
 
-  return (
-    <div className="prose">
-      <PortableText components={components} value={value} />
-    </div>
-  )
+  return <PortableText components={components} value={value} />
 }

@@ -19,9 +19,9 @@ export const client = createClient({
     studioUrl,
     // logger: console,
     filter: (props) => {
-      if (props.sourcePath.at(-1) === 'title') {
-        return true
-      }
+      // if (props.sourcePath.at(-1) === 'title') {
+      //   return true
+      // }
 
       return props.filterDefault(props)
     },
