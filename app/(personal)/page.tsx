@@ -12,6 +12,7 @@ const HomePagePreview = dynamic(
 )
 
 export async function generateMetadata(
+  params: {},
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const { data: home } = await loadHomePage()
