@@ -18,7 +18,6 @@ export const homePageQuery = groq`
       coverImage,
       overview,
       "slug": slug.current,
-      tags,
       title,
     },
     title,
@@ -41,7 +40,13 @@ export const locationBySlugQuery = groq`
     population,
     joined,
     partners,
-    cuisines[],
+    cuisines[]->{
+      _type,
+      coverImage,
+      overview,
+      "slug": slug.current,
+      title,
+    },
     reviews,
     reviewAverage,
     seo,
@@ -76,6 +81,65 @@ export const cuisineBySlugQuery = groq`
       _type,
       title,
       "slug" : slug.current,
+    }
+  }
+`
+
+export const locationCuisineBySlugQuery = groq`
+{
+  'locationCuisineSettings': *[_type == 'locationCuisineSettings'][0] {
+    title,
+    seo,
+  },
+  "location": *[_type == "location" && slug.current == $location][0] {
+    _id,
+    body,
+    overview,
+    title,
+    "slug": slug.current,
+    population,
+    joined,
+    partners,
+    cuisines[]->{
+      _type,
+      coverImage,
+      overview,
+      "slug": slug.current,
+      title,
+    },
+    reviews,
+    reviewAverage,
+    'locationSettings': *[_type == 'locationSettings'][0] {
+      title,
+      overview,
+      seo,
+    }
+  } {
+    ...,
+    "overview": coalesce(overview, locationSettings.overview),
+    "cuisineCount": count(cuisines),
+  },
+  "cuisine": *[_type == "cuisine" && slug.current == $cuisine][0] {
+    _id,
+    coverImage,
+    description,
+    "slug": slug.current,
+    title,
+  }
+} {
+  ...,
+  "locationCuisine": *[_type == "locationCuisine" && location._ref == ^.location._id && cuisine._ref == ^.cuisine._id][0] {
+    title,
+    seo
+  }
+} {
+    ...,
+    "h1": coalesce(locationCuisine.title, locationCuisineSettings.title),
+    "seo": {
+      "title": coalesce(locationCuisine.seo.title, locationCuisineSettings.seo.title),
+      "description": coalesce(locationCuisine.seo.description, locationCuisineSettings.seo.description),
+      "image": coalesce(locationCuisine.seo.image, locationCuisineSettings.seo.image),
+      "noIndex": coalesce(locationCuisine.seo.noIndex, locationCuisineSettings.seo.noIndex),
     }
   }
 `

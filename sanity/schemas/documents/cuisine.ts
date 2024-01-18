@@ -1,6 +1,5 @@
-import { ImageIcon } from '@sanity/icons'
 import { Utensils } from 'lucide-react'
-import { defineArrayMember, defineField, defineType } from 'sanity'
+import { defineField, defineType } from 'sanity'
 
 export default defineType({
   name: 'cuisine',

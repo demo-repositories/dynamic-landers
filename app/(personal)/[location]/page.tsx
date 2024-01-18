@@ -13,14 +13,14 @@ const LocationPagePreview = dynamic(
 )
 
 type Props = {
-  params: { slug: string }
+  params: { location: string }
 }
 
 export async function generateMetadata(
   { params }: Props,
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
-  const { data: location } = await loadLocation(params.slug)
+  const { data: location } = await loadLocation(params.location)
 
   const metaData = {
     title: location?.seo?.title || location?.title,
@@ -34,11 +34,11 @@ export async function generateMetadata(
 }
 
 export function generateStaticParams() {
-  return generateStaticSlugs('page')
+  return generateStaticSlugs('location')
 }
 
 export default async function PageSlugRoute({ params }: Props) {
-  const initial = await loadLocation(params.slug)
+  const initial = await loadLocation(params.location)
 
   if (draftMode().isEnabled) {
     return <LocationPagePreview params={params} initial={initial} />

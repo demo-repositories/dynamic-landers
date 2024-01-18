@@ -25,6 +25,7 @@ export function urlForOpenGraphImage(image: Image | undefined) {
 export function resolveHref(
   documentType?: string,
   slug?: string,
+  segments?: string[],
 ): string | undefined {
   switch (documentType) {
     case 'home':
@@ -35,6 +36,8 @@ export function resolveHref(
       return slug ? `/nearme/${slug}` : undefined
     case 'location':
       return slug ? `/${slug}` : undefined
+    case 'locationCuisine':
+      return slug ? `/${slug}/${segments?.join('/')}` : undefined
     default:
       console.warn('Invalid document type:', documentType)
       return undefined

@@ -8,12 +8,14 @@ import {
   cuisineBySlugQuery,
   homePageQuery,
   locationBySlugQuery,
+  locationCuisineBySlugQuery,
   settingsQuery,
 } from '@/sanity/lib/queries'
 import { token } from '@/sanity/lib/token'
 import {
   CuisinePayload,
   HomePagePayload,
+  LocationCuisinePayload,
   LocationPayload,
   SettingsPayload,
 } from '@/types'
@@ -88,10 +90,18 @@ export function loadCuisine(slug: string) {
   )
 }
 
-export function loadLocation(slug: string) {
+export function loadLocation(location: string) {
   return loadQuery<LocationPayload | null>(
     locationBySlugQuery,
-    { slug },
-    { next: { tags: [`location:${slug}`] } },
+    { slug: location },
+    { next: { tags: [`location:${location}`] } },
+  )
+}
+
+export function loadLocationCuisine(location: string, cuisine: string) {
+  return loadQuery<LocationCuisinePayload | null>(
+    locationCuisineBySlugQuery,
+    { location: location, cuisine: cuisine },
+    { next: { tags: [`location:${location}`, `cuisine:${cuisine}`] } },
   )
 }

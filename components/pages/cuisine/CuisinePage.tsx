@@ -14,7 +14,7 @@ export interface CuisinePageProps {
 
 export function CuisinePage({ data, encodeDataAttribute }: CuisinePageProps) {
   // Default to an empty object to allow previews on non-existent documents
-  const { coverImage, description, title, locations = [] } = data ?? {}
+  const { coverImage, description, title, locations, slug = '' } = data ?? {}
 
   return (
     <div>
@@ -50,14 +50,16 @@ export function CuisinePage({ data, encodeDataAttribute }: CuisinePageProps) {
             <h2>Locations:</h2>
             <ul>
               {locations.map((location, key) => {
-                const href = resolveHref(location._type, location.slug)
+                const href = resolveHref('locationCuisine', location.slug, [
+                  slug,
+                ])
                 if (!href) {
                   return null
                 }
                 return (
                   <li key={key}>
                     <Link
-                      href={href}
+                      href={`${href}`}
                       data-sanity={encodeDataAttribute?.([
                         'location',
                         key,

@@ -1,11 +1,11 @@
-import { CogIcon } from '@sanity/icons'
+import { Cog } from 'lucide-react'
 import { defineArrayMember, defineField, defineType } from 'sanity'
 
 export default defineType({
   name: 'settings',
   title: 'Settings',
   type: 'document',
-  icon: CogIcon,
+  icon: Cog,
   fields: [
     defineField({
       name: 'menuItems',

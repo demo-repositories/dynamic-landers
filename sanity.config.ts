@@ -15,11 +15,14 @@ import { locate } from '@/sanity/plugins/locate'
 import { singletonPlugin } from '@/sanity/plugins/settings'
 import cuisine from '@/sanity/schemas/documents/cuisine'
 import location from '@/sanity/schemas/documents/location'
+import locationCuisine from '@/sanity/schemas/documents/locationCuisine'
 import page from '@/sanity/schemas/documents/page'
+import redirect from '@/sanity/schemas/documents/redirect'
 import portableText from '@/sanity/schemas/objects/portableText'
 import portableTextLocation from '@/sanity/schemas/objects/portableTextLocation'
 import seo from '@/sanity/schemas/objects/seo'
 import home from '@/sanity/schemas/singletons/home'
+import locationCuisineSettings from '@/sanity/schemas/singletons/locationCuisineSettings'
 import locationSettings from '@/sanity/schemas/singletons/locationSettings'
 import settings from '@/sanity/schemas/singletons/settings'
 import { structure } from '@/sanity/structure/structure'
@@ -40,10 +43,13 @@ export default defineConfig({
       home,
       settings,
       locationSettings,
+      locationCuisineSettings,
       // Documents
       page,
       cuisine,
       location,
+      locationCuisine,
+      redirect,
       // Objects
       seo,
       portableText,

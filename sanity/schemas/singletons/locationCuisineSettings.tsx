@@ -2,8 +2,8 @@ import { Cog } from 'lucide-react'
 import { defineField, defineType } from 'sanity'
 
 export default defineType({
-  name: 'locationSettings',
-  title: 'Location Settings',
+  name: 'locationCuisineSettings',
+  title: 'Location Cuisine Settings',
   type: 'document',
   icon: Cog,
   fields: [
@@ -18,13 +18,6 @@ export default defineType({
       type: 'string',
     }),
     defineField({
-      name: 'overview',
-      description: 'Used to set the default location subheader.',
-      title: 'Overview',
-      type: 'portableTextLocation',
-      validation: (rule) => rule.required().max(155),
-    }),
-    defineField({
       name: 'seo',
       title: 'SEO',
       type: 'seo',
@@ -32,6 +25,10 @@ export default defineType({
         <>
           Used to set the default SEO settings. Supports the following
           placeholders:{' '}
+          <code>
+            {'{'}cuisine{'}'}
+          </code>
+          ,{' '}
           <code>
             {'{'}location{'}'}
           </code>
@@ -66,7 +63,7 @@ export default defineType({
   preview: {
     prepare() {
       return {
-        title: 'Location - Global Settings',
+        title: 'Location x Cuisine - Global Settings',
       }
     },
   },

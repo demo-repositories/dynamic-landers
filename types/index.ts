@@ -13,10 +13,10 @@ export interface Location {
   title?: string
 }
 
-export interface showcaseCuisine {
+export interface ShowcaseCuisine {
   _type: string
   coverImage?: Image
-  slug?: string
+  slug: string
   tags?: string[]
   title?: string
 }
@@ -33,7 +33,7 @@ export interface SEO {
 export interface HomePagePayload {
   footer?: PortableTextBlock[]
   overview?: PortableTextBlock[]
-  showcaseCuisines?: showcaseCuisine[]
+  showcaseCuisines?: ShowcaseCuisine[]
   title?: string
   locations?: Location[]
   seo?: SEO
@@ -46,7 +46,7 @@ export interface LocationPayload {
   h1?: string
   slug?: string
   seo?: SEO
-  cuisines?: showcaseCuisine[]
+  cuisines?: ShowcaseCuisine[]
   cuisineCount?: number
   reviews?: number
   reviewAverage?: number
@@ -62,6 +62,14 @@ export interface CuisinePayload {
   title?: string
   seo?: SEO
   locations?: Location[]
+}
+
+export interface LocationCuisinePayload {
+  location: LocationPayload
+  cuisine: CuisinePayload
+  title?: string
+  h1?: string
+  seo?: SEO
 }
 
 export interface SettingsPayload {

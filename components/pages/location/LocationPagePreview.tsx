@@ -9,7 +9,7 @@ import { LocationPayload } from '@/types'
 import LocationPage from './LocationPage'
 
 type Props = {
-  params: { slug: string }
+  params: { location: string }
   initial: QueryResponseInitial<LocationPayload | null>
 }
 
@@ -17,7 +17,7 @@ export default function LocationPagePreview(props: Props) {
   const { params, initial } = props
   const { data, encodeDataAttribute } = useQuery<LocationPayload | null>(
     locationBySlugQuery,
-    params,
+    { ...params, slug: params.location },
     {
       initial,
     },

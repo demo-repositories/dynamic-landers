@@ -1,4 +1,5 @@
-import { CogIcon, HomeIcon } from '@sanity/icons'
+import { HomeIcon } from '@sanity/icons'
+import { Cog, MapPinned, UtensilsCrossed } from 'lucide-react'
 import type { ListItemBuilder, StructureResolver } from 'sanity/structure'
 
 // If you add document types to desk structure manually, you can add them to this array to prevent duplicates in the root pane
@@ -9,7 +10,10 @@ const DOCUMENT_TYPES_IN_STRUCTURE = [
   'cuisine',
   'location',
   'locationSettings',
+  'locationCuisine',
+  'locationCuisineSettings',
   'page',
+  'redirect',
 ]
 
 // The StructureResolver is how we're changing the DeskTool structure to linking to document (named Singleton)
@@ -36,7 +40,7 @@ export const structure: StructureResolver = (S, context) => {
             .items([
               S.listItem()
                 .title('Global Settings')
-                .icon(CogIcon)
+                .icon(Cog)
                 .child(
                   S.editor()
                     .id('locationSettings')
@@ -46,14 +50,39 @@ export const structure: StructureResolver = (S, context) => {
               S.listItem()
                 .title('All Locations')
                 .id('location')
+                .icon(MapPinned)
                 .child(
                   S.documentTypeList('location').defaultOrdering([
                     { field: 'name', direction: 'asc' },
                   ]),
                 ),
-              // S.documentTypeList('location').defaultOrdering([
-              //   { field: 'name', direction: 'asc' },
-              // ]),
+            ]),
+        ),
+      S.listItem()
+        .title('Location x Cuisine Pages')
+        .schemaType('locationCuisine')
+        .child(
+          S.list()
+            .title('Location x Cuisine')
+            .items([
+              S.listItem()
+                .title('Global Settings')
+                .icon(Cog)
+                .child(
+                  S.editor()
+                    .id('locationCuisineSettings')
+                    .schemaType('locationCuisineSettings')
+                    .documentId('locationCuisineSettings'),
+                ),
+              S.listItem()
+                .title('Override Pages')
+                .id('locationCuisine')
+                .icon(UtensilsCrossed)
+                .child(
+                  S.documentTypeList('locationCuisine').defaultOrdering([
+                    { field: 'name', direction: 'asc' },
+                  ]),
+                ),
             ]),
         ),
       ...S.documentTypeListItems().filter(
@@ -64,12 +93,25 @@ export const structure: StructureResolver = (S, context) => {
       S.divider(),
       S.listItem()
         .title('Settings')
-        .icon(CogIcon)
+        .icon(Cog)
         .child(
-          S.editor()
-            .id('settings')
-            .schemaType('settings')
-            .documentId('settings'),
+          S.list()
+            .title('Settings')
+            .items([
+              S.listItem()
+                .title('Site Settings')
+                .icon(Cog)
+                .child(
+                  S.editor()
+                    .id('settings')
+                    .schemaType('settings')
+                    .documentId('settings'),
+                ),
+              S.listItem()
+                .title('Redirects')
+                .schemaType('redirect')
+                .child(S.documentTypeList('redirect')),
+            ]),
         ),
     ])
 }

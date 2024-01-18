@@ -1,8 +1,11 @@
 import type { EncodeDataAttributeCallback } from '@sanity/react-loader'
+import Link from 'next/link'
 
+import { CuisineListItem } from '@/components/pages/home/CuisineListItem'
 import { CustomPortableText } from '@/components/shared/CustomPortableText'
 import { Header } from '@/components/shared/Header'
 import { filterObjectKeys, placeholderReplace } from '@/sanity/lib/utils'
+import { resolveHref } from '@/sanity/lib/utils'
 import type { LocationPayload } from '@/types'
 
 export interface LocationPageProps {
@@ -12,7 +15,7 @@ export interface LocationPageProps {
 
 export function LocationPage({ data, encodeDataAttribute }: LocationPageProps) {
   // Default to an empty object to allow previews on non-existent documents
-  const { overview, h1 = '' } = data ?? {}
+  const { h1 = '', overview, cuisines = [], slug } = data ?? {}
 
   const placeholderData = data
     ? filterObjectKeys(data, [
@@ -41,6 +44,34 @@ export function LocationPage({ data, encodeDataAttribute }: LocationPageProps) {
               placeholderData={placeholderData}
               encodeDataAttribute={encodeDataAttribute}
             />
+          </div>
+        )}
+
+        {cuisines && cuisines.length > 0 && (
+          <div className="mx-auto max-w-[100rem]">
+            <div className="grid grid-cols-3 gap-4">
+              {cuisines.map((cuisine, key) => {
+                const href = resolveHref('locationCuisine', slug, [
+                  cuisine.slug,
+                ])
+                if (!href) {
+                  return null
+                }
+                return (
+                  <Link
+                    key={key}
+                    href={href}
+                    data-sanity={encodeDataAttribute?.([
+                      'showcaseCuisines',
+                      key,
+                      'slug',
+                    ])}
+                  >
+                    <CuisineListItem cuisine={cuisine} />
+                  </Link>
+                )
+              })}
+            </div>
           </div>
         )}
       </div>
